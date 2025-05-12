@@ -23,3 +23,7 @@ MERGE INTO caneta c
     WHEN MATCHED THEN
         UPDATE SET c.preco = c.preco * 1.10
     WHERE f.nome = 'Faber-Castell';
+
+
+-- formatacao de data
+select c.*, TO_CHAR(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') AS data_atual  from MM.CANETA2 c where 1=1 ;
