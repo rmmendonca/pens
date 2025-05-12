@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface CanetaRepositoryCustom {
     List<Caneta> filtrar (Double precoMin, Double precoMax, String modelo, LocalDate dataFabMin, LocalDate dataFabMax);
+
+    List<Caneta> filtrarJDBC(Double precoMin, Double precoMax, String modelo, LocalDate dataFabMin, LocalDate dataFabMax);
 }

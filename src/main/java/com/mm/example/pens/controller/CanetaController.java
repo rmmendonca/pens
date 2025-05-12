@@ -1,5 +1,7 @@
 package com.mm.example.pens.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mm.example.pens.dto.CanetaAtualizaPrecoDto;
 import com.mm.example.pens.dto.CanetaFiltroDto;
 import com.mm.example.pens.exception.ResourceNotFoundException;
@@ -16,8 +18,11 @@ import java.util.List;
 public class CanetaController {
 
     private final CanetaService canetaService;
-    public CanetaController(CanetaService canetaService) {
+    private final ObjectMapper objectMapper;
+
+    public CanetaController(CanetaService canetaService, ObjectMapper objectMapper) {
         this.canetaService = canetaService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -55,6 +60,39 @@ public class CanetaController {
                     return ResponseEntity.ok(canetaService.save(existente));
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Caneta> atualizar(@PathVariable Long id, @RequestBody Caneta caneta) {
+        return canetaService.findById(id)
+                .map(existente -> {
+                    caneta.setID(id);
+                    return ResponseEntity.ok(canetaService.save(caneta));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/put2/{id}")
+    public ResponseEntity<Caneta> atualizarOM(@PathVariable Long id, @RequestBody Caneta caneta) {
+        return canetaService.findById(id)
+                .map(existente -> {
+                    try {
+                        objectMapper.updateValue(existente, caneta);
+                    } catch (JsonMappingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return ResponseEntity.ok(canetaService.save(existente));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return canetaService.findById(id)
+                .map(existente -> {
+                    canetaService.deleteById(id);
+                    return ResponseEntity.noContent().build();
+                }).orElse(ResponseEntity.notFound().build());
     }
 
 }

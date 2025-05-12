@@ -37,18 +37,7 @@ public class CanetaService{
         return canetaRepository.save(caneta);
     }
 
-
-//    public List<CanetaEntity> findAll() {
-//        return canetaRepository.findAll();
-//    }
-//
-//    public Optional<CanetaEntity> findById(Long id) {
-//        return canetaRepository.findById(id);
-//    }
-//
-
-//
-//    public void deleteById(Long id) {
-//        canetaRepository.deleteById(id);
-//    }
+    public void deleteById(Long id){
+        canetaRepository.deleteById(id);
+    }
 }
