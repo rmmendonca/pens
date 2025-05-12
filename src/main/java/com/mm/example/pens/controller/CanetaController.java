@@ -37,7 +37,7 @@ public class CanetaController {
     }
 
     @GetMapping("/geh/{id}")
-    public ResponseEntity<?> findByIdGEH(@PathVariable Long id){
+    public ResponseEntity<?> findByIdGlobalExceptionHandler(@PathVariable Long id){
         return canetaService.findById(id).map(ResponseEntity :: ok)
                 .orElseThrow(() -> new ResourceNotFoundException("caneta nao encontrada com o id " +id));
     }
@@ -73,7 +73,7 @@ public class CanetaController {
     }
 
     @PutMapping("/put2/{id}")
-    public ResponseEntity<Caneta> atualizarOM(@PathVariable Long id, @RequestBody Caneta caneta) {
+    public ResponseEntity<Caneta> atualizarComObjectMapper(@PathVariable Long id, @RequestBody Caneta caneta) {
         return canetaService.findById(id)
                 .map(existente -> {
                     try {
